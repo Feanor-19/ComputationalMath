@@ -1,0 +1,159 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{cmap}
+\usepackage{mathtext}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{graphicx}
+%\graphicspath{{noiseimages/}}
+\usepackage{wrapfig}
+\usepackage{tabularx}
+\usepackage{hyphenat}
+\usepackage{hyperref}
+\usepackage{gensymb}
+\usepackage[rgb]{xcolor}
+\hypersetup{
+colorlinks=true,urlcolor=blue
+}
+
+\usepackage{adjustbox}
+
+%%% Дополнительная работа с математикой
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % AMS
+\usepackage{icomma} % "Умная" запятая: $0,2$ --- число, $0, 2$ --- перечисление
+
+%% Номера формул
+%\mathtoolsset{showonlyrefs=true} % Показывать номера только у тех формул, на которые есть \eqref{} в тексте.
+
+%% Шрифты
+\usepackage{euscript}	 % Шрифт Евклид
+\usepackage{mathrsfs} % Красивый матшрифт
+
+%% Свои команды
+\DeclareMathOperator{\sgn}{\mathop{sgn}}
+
+\usepackage{graphics}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{siunitx} % Required for alignment
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{afterpage}
+\usepackage[T1,T2A]{fontenc}
+\usepackage{caption}
+\usepackage[arrowdel]{physics}
+\usepackage{booktabs}
+
+\newcommand{\rref}[1]{(\ref{#1})}
+\newcommand{\Equip}[3]{{\bf #1:} $\Delta = \pm #2$ \si{#3}
+
+}
+\newcommand{\equip}[1]{{\bf #1}
+
+}
+
+\begin{document}
+
+\section{Аннотация}
+
+В данной работе производится сравнение нескольких методов численного дифференцирования по критерию абсолютной погрешности на примере нескольких функций.
+
+\section{Методология}
+
+В рамках работы проводится сравнительный анализ точности различных методов численного дифференцирования. В качестве эталона для оценки погрешности используются значения производных, полученные аналитически в заданных точках.
+
+\subsection{Тестовые функции и точки вычисления}
+Для исследования выбраны следующие функции с соответствующими точками вычисления производной:
+\begin{itemize}
+    \item $f_1(x) = \sin(x^2)$ в точке $x_1 = 2.0$
+    \item $f_2(x) = \cos(\sin(x))$ в точке $x_2 = \pi/4$
+    \item $f_3(x) = \exp(\sin(\cos(x)))$ в точке $x_3 = 1.0$
+    \item $f_4(x) = \ln(x+3)$ в точке $x_4 = 0.5$
+    \item $f_5(x) = (x+3)^{0.5}$ в точке $x_5 = 0.5$
+\end{itemize}
+Выбранные точки достаточно удалены от особых точек функций (точек разрыва, недифференцируемости и других особенностей), что обеспечивает корректность применения численных методов.
+
+\subsection{Исследуемые методы численного дифференцирования}
+Рассматриваются пять формул численного дифференцирования различных порядков точности:
+
+\begin{enumerate}
+    \item Правая разностная производная (первый порядок точности):
+    \[ f'(x) \approx \frac{f(x+h)-f(x)}{h} \]
+    
+    \item Левая разностная производная (первый порядок точности):
+    \[ f'(x) \approx \frac{f(x)-f(x-h)}{h} \]
+    
+    \item Центральная разностная производная (второй порядок точности):
+    \[ f'(x) \approx \frac{f(x+h)-f(x-h)}{2h} \]
+    
+    \item Формула с четвертым порядком точности:
+    \[ f'(x) \approx \frac{4}{3} \cdot \frac{f(x+h)-f(x-h)}{2h} - \frac{1}{3} \cdot \frac{f(x+2h)-f(x-2h)}{4h} \]
+    
+    \item Формула с шестым порядком точности:
+    \[ f'(x) \approx \frac{3}{2} \cdot \frac{f(x+h)-f(x-h)}{2h} - \frac{3}{5} \cdot \frac{f(x+2h)-f(x-2h)}{4h} + \frac{1}{10} \cdot \frac{f(x+3h)-f(x-3h)}{6h} \]
+\end{enumerate}
+
+\subsection{Параметры вычислительного эксперимента}
+\begin{itemize}
+    \item \textbf{Шаг дифференцирования:} Величина шага $h$ варьируется по закону $h_n = \dfrac{2}{2^n}$, где $n = 1, 2, \ldots, 21$
+    \item \textbf{Метрика погрешности:} Для каждого метода, каждой функции и каждого значения шага $h_n$ вычисляется абсолютная погрешность 
+    \[ \Delta(h) = |f'_{\text{числ}}(x_i) - f'_{\text{ан}}(x_i)| \]
+    где $x_i$ - точка вычисления для соответствующей функции
+    \item \textbf{Визуализация:} Зависимости $\Delta(h)$ для различных методов представляются в виде графиков в логарифмическом масштабе
+\end{itemize}
+
+\section{Исследование}
+
+Код на Python приведён в приложенном файле lab1.py.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{images/Figure_1.png}
+	\caption{}
+	\label{graf:1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{images/Figure_2.png}
+	\caption{}
+	\label{graf:2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{images/Figure_3.png}
+	\caption{}
+	\label{graf:3}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{images/Figure_4.png}
+	\caption{}
+	\label{graf:4}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{images/Figure_5.png}
+	\caption{}
+	\label{graf:5}
+\end{figure}
+
+\section{Обсуждение результатов}
+
+Первые два метода $F_1$ $F_2$ имеют практически одинаковую абсолютную погрешность начиная с некоторого малого $n$ на всех графиках. Это закономерно следует из того, что оба метода первого порядка. У обоих методов на всех функциях ошибка уменьшается линейно в логарифмических координатах.
+
+Третий метод $F_3$, имеющий второй порядок точности, так же имеет качественно одинаковый вид на всех графиках. Отличие от первых двух состоит в отходе от линейности начиная с $n = 18\pm2$, что, скорее всего, вызвано ограничением точности представления чисел с плавающей запятой, до которого ``не доходят'' первые два метода.
+
+Методы $F_4$ и $F_5$ качественно ведут себя так же, как третий, но упираются в ограничение точности представления раньше, т.к. являются методами четвертого и шестого порядка соответственно. При этом на всех графиках ожидаемо наблюдается, что линейный участок пятого метода заканчивается при меньших $n$, чем у четвертого. Вне линейного (в логарифмических координатах) участка абсолютная ошибка у обоих методов во многих точках совпадает и сильно ``скачет''. Вид этого нелинейного участка зависит не только от конкретных функций, но и от точки вычисления. Видно, что на всех функциях пятый метод достигает наименьшего значения ошибки.
+
+\section{Вывод}
+
+Использование пятого метода для вычисления производной может быть оправдано, но требуется экспериментальный подбор максимального значения $n \approx 10$, попадающего на линейный участок, иначе не будет достигнута минимально возможная ошибка. В приложениях, где важна производительность, четвертый метод может быть предпочтительнее, т.к. он требует меньшего числа операций и дает не значительно большую ошибку, чем пятый.
+
+\end{document}
