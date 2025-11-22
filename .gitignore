@@ -1,2 +1,3 @@
 books
 *.gz
+__pycache__
