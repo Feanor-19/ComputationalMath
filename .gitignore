@@ -1,3 +1,4 @@
 books
 *.gz
 __pycache__
+notes
